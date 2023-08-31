@@ -1,6 +1,9 @@
 const BRAIINS_PROTOBUF_REPO: &str = "https://github.com/braiins/bos-plus-api";
 
-use std::{env, fs, path::Path};
+use std::{
+    env, fs,
+    path::{Path, PathBuf},
+};
 
 fn main() {
     env::set_var("PROTOC", protobuf_src::protoc());
@@ -15,7 +18,7 @@ fn main() {
 
     git2::Repository::clone(BRAIINS_PROTOBUF_REPO, &repo_dir).unwrap();
 
-    let proto_files: Vec<_> = walkdir::WalkDir::new(&repo_dir)
+    let proto_files: Vec<PathBuf> = walkdir::WalkDir::new(&repo_dir)
         .into_iter()
         .flatten()
         .map(|entry| entry.into_path())
